@@ -1,0 +1,9 @@
+<h1>Componente 1</h1>
+<h3>Cantidad: {{cantidadComponente1}}</h3>
+<button class="boton" (click)="meterCantidad()" > add</button>
+
+<input type="text" [(ngModel)]="nuevaPalabra" placeholder="Nueva palabra">
+<button (click)="meterString()">Añadir palabra</button>
+<div *ngFor="let palabra of listaComponente1">
+    <p>{{palabra}}</p>
+</div>
