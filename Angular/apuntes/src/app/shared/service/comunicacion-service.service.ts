@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Producto } from '../interface/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class ComunicacionServiceService {
 
   constructor() { }
-
+//--------------------CANTIDAD--------------------
   private cantidadBeha = new BehaviorSubject<number>(0);
   cantidadSeleccionada$ = this.cantidadBeha.asObservable();
 
@@ -20,7 +21,7 @@ export class ComunicacionServiceService {
     console.log('Cantidad actualizada desde servicio a: ', nuevaCantidad);
   }
 
-
+//--------------------LISTA--------------------
   private listaBehavior = new BehaviorSubject<string[]>([]);
   listaSeleccionada$ = this.listaBehavior.asObservable();
 
@@ -36,7 +37,27 @@ export class ComunicacionServiceService {
 
   }
 
+  //----------------FILTRO---------------
+    
+  private productosBehavior = new BehaviorSubject<Producto[]>([]);
+  productosSeleccionados$ = this.productosBehavior.asObservable();
 
-  
+  getProductos(): Producto[] {
+    return this.productosBehavior.getValue();
+  }
+
+  agregarProducto(nuevoProducto: Producto): void {
+    const productosActuales = this.productosBehavior.getValue();
+    productosActuales.push(nuevoProducto);
+    this.productosBehavior.next(productosActuales);
+    console.log('Productos actualizados desde servicio a: ', productosActuales);
+  }
+
+  filtrarProductosPorCategoria(categoria: string): Observable<Producto[]> {
+    const productosFiltrados = this.productosBehavior.getValue().filter(producto => producto.categoria === categoria);
+    return new BehaviorSubject<Producto[]>(productosFiltrados).asObservable();
+  }
+
+
 
 }
